@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Yapp.Parser.Grammer {
+﻿namespace Yapp.Parser.Grammer {
 	public class Token(in string name) : IEquatable<Token> {
 		private readonly string _name = name;
 
