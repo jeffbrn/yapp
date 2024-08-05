@@ -17,7 +17,7 @@ namespace Yapp.Parser.Grammer {
 			StringBuilder sb = new();
 			sb.Append($"{Name} -> ");
 			for (int i = 0; i < elements.Length; i++) {
-				if (i == _posn) sb.Append(" . ");
+				if (i == _posn) sb.Append(". ");
 				sb.Append($"{elements[i]} ");
 			}
 			if (_posn == elements.Length) sb.Append(".");

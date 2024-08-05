@@ -1,0 +1,10 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58662a59_002D5576_002D4eac_002Da37c_002D0e27c0a3da1c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UnitTest1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::parser_tests.UnitTest1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.grammer.RuleTests.Display&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.grammer.RuleTests.Properties&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.grammer.TokenTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.grammer.RuleCollectionTests.Display&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
