@@ -1,14 +1,25 @@
 ﻿using System.Text;
 
 namespace Yapp.Parser.Grammer {
-	public class Rule(in string name, params Token[] elements) {
-		private int _posn = 0;
-		private readonly string _name = name;
+	public class Rule : IEquatable<Rule> {
+		private readonly string _name;
+		private readonly Token[] _elements;
+		private readonly int _hash;
+
+		public Rule(in string name, params Token[] elements) {
+			_elements = elements;
+			_name = name;
+			uint h = 0;
+			foreach (var e in elements) {
+				h ^= (uint)e.GetHashCode();
+			}
+			_hash = (int)h;
+		}
 
 		public string Name => _name;
 
-		public Token this[int idx] => elements[idx];
-		public int Length => elements.Length;
+		public Token this[int idx] => _elements[idx];
+		public int Length => _elements.Length;
 
 		#region Overrides of Object
 
@@ -16,16 +27,49 @@ namespace Yapp.Parser.Grammer {
 		public override string ToString() {
 			StringBuilder sb = new();
 			sb.Append($"{Name} -> ");
-			for (int i = 0; i < elements.Length; i++) {
-				if (i == _posn) sb.Append(". ");
-				sb.Append($"{elements[i]} ");
+			foreach (var t in _elements) {
+				sb.Append($"{t} ");
 			}
-			if (_posn == elements.Length) sb.Append(".");
 			return sb.ToString();
 		}
 
 		#endregion
 
-		internal Token? Current => _posn < elements.Length ? elements[_posn] : null;
+		#region Equality members
+
+		/// <inheritdoc />
+		public bool Equals(Rule? other) {
+			if (other is null) return false;
+			if (ReferenceEquals(this, other)) return true;
+			if (_name != other._name || Length != other.Length) return false;
+			for (int i = 0; i < Length; i++) {
+				if (this[i] != other[i]) return false;
+			}
+
+			return true;
+		}
+
+		/// <inheritdoc />
+		public override bool Equals(object? obj) {
+			if (ReferenceEquals(null, obj)) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (obj.GetType() != this.GetType()) return false;
+			return Equals((Rule)obj);
+		}
+
+		/// <inheritdoc />
+		public override int GetHashCode() {
+			return _hash;
+		}
+
+		public static bool operator ==(Rule? left, Rule? right) {
+			return Equals(left, right);
+		}
+
+		public static bool operator !=(Rule? left, Rule? right) {
+			return !Equals(left, right);
+		}
+
+		#endregion
 	}
 }

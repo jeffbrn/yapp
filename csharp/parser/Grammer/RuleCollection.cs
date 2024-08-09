@@ -27,24 +27,7 @@ namespace Yapp.Parser.Grammer {
 
 		#endregion
 
-		/// <summary>
-		/// Walk a rule to find all other rules that are part of the incoming rule state
-		/// </summary>
-		/// <param name="from"></param>
-		/// <returns></returns>
-		internal List<Rule> Walk(Rule from) {
-			List<Rule> retval = [from];
-			var chk = from.Current;
-			if (chk == null || chk == Token.EOT) return retval;
-			foreach (var rule in Find(chk.Name)) {
-				if (rule.Equals(from)) continue;
-				retval.AddRange(Walk(rule));
-			}
-
-			return retval;
-		}
-
-		private IEnumerable<Rule> Find(string name) =>
+		internal IEnumerable<Rule> Find(string name) =>
 			_rules.Where(r => r.Name == name);
 	}
 }

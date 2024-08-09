@@ -11,8 +11,7 @@ namespace Yapp.Tests.grammer {
 		[Fact]
 		public void EqualityCheck() {
 			Token t1 = new("Apple");
-			// ReSharper disable once EqualExpressionComparison
-			Assert.True(t1 == t1);
+			Assert.Equal(t1, t1);
 			Token t2 = new("apple");
 			Assert.False(t1 == t2);
 			Token t3 = new("apple");
