@@ -6,8 +6,8 @@ namespace Yapp.Tests.grammer {
 		public void Display() {
 			RuleCollection grm = new("A", "z");
 			grm.Add("B", "b");
-			var expected = @"A -> . z 
-B -> . b 
+			var expected = @"A -> z 
+B -> b 
 ";
 			Assert.Equal(expected, grm.ToString());
 		}

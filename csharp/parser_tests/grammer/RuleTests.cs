@@ -5,7 +5,7 @@ namespace Yapp.Tests.grammer {
 		[Fact]
 		public void Display() {
 			Rule r = new("T", new Token("("), new("E"), new(")"));
-			Assert.Equal("T -> . ( E ) ", r.ToString());
+			Assert.Equal("T -> ( E ) ", r.ToString());
 		}
 
 		[Fact]
