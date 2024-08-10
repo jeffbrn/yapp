@@ -3,10 +3,10 @@
 namespace Yapp.Parser.Grammer {
 	public class Rule : IEquatable<Rule> {
 		private readonly string _name;
-		private readonly Token[] _elements;
+		private readonly RuleItem[] _elements;
 		private readonly int _hash;
 
-		public Rule(in string name, params Token[] elements) {
+		public Rule(in string name, params RuleItem[] elements) {
 			_elements = elements;
 			_name = name;
 			uint h = 0;
@@ -18,7 +18,7 @@ namespace Yapp.Parser.Grammer {
 
 		public string Name => _name;
 
-		public Token this[int idx] => _elements[idx];
+		public RuleItem this[int idx] => _elements[idx];
 		public int Length => _elements.Length;
 
 		#region Overrides of Object

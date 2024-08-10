@@ -15,7 +15,7 @@ namespace Yapp.Parser.Lalr {
 			public Rule Rule => _rule;
 			public int Pos => _posn;
 
-			public Token? Current => _posn < _rule.Length ? _rule[_posn] : null;
+			public RuleItem? Current => _posn < _rule.Length ? _rule[_posn] : null;
 
 			public RuleWalk Next() => new RuleWalk(_rule, _posn + 1);
 

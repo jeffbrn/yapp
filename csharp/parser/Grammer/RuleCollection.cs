@@ -9,7 +9,9 @@ namespace Yapp.Parser.Grammer {
 		}
 
 		public void Add(string name, string elements) {
-			Rule r = new(name, elements.Select(x => new Token(x.ToString())).ToArray());
+			Rule r = new(
+				name,
+				elements.Select(x => char.IsUpper(x) ? new RuleItem(x.ToString()) : new RuleItem(new Token(x.ToString()))).ToArray());
 			_rules.Add(r);
 		}
 

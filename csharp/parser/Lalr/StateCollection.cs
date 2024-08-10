@@ -23,8 +23,8 @@ namespace Yapp.Parser.Lalr {
 		internal List<State.RuleWalk> Walk(Rule from) {
 			List<State.RuleWalk> retval = [new State.RuleWalk(from, 0)];
 			var chk = retval[0].Current;
-			if (chk == null || chk == Token.EOT) return retval;
-			foreach (var rule in _rules.Find(chk.Name)) {
+			if (chk == null || chk.IsTerminal) return retval;
+			foreach (var rule in _rules.Find(chk.Rule)) {
 				if (rule.Equals(from)) continue;
 				retval.AddRange(Walk(rule));
 			}
