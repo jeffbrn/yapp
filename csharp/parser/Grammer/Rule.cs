@@ -6,7 +6,7 @@ namespace Yapp.Parser.Grammer {
 		private readonly RuleItem[] _elements;
 		private readonly int _hash;
 
-		public Rule(in string name, params RuleItem[] elements) {
+		public Rule(string name, params RuleItem[] elements) {
 			_elements = elements;
 			_name = name;
 			uint h = 0;
