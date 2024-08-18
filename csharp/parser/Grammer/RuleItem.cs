@@ -1,12 +1,23 @@
 ﻿namespace Yapp.Parser.Grammer {
+	/// <summary>
+	/// Defines a rule element which can be either a terminal or non-terminal
+	/// </summary>
 	public class RuleItem {
-		private readonly Token? _token = null;
-		private readonly string? _rule = null;
+		private readonly Token? _token;
+		private readonly string? _rule;
 
+		/// <summary>
+		/// Defines a terminal rule element
+		/// </summary>
+		/// <param name="t">The token that defines the terminal value</param>
 		public RuleItem(Token t) {
 			_token = t;
 		}
 
+		/// <summary>
+		/// Defines a non-terminal rule element
+		/// </summary>
+		/// <param name="rule">name of the rule</param>
 		public RuleItem(string rule) {
 			_rule = rule;
 		}

@@ -2,9 +2,19 @@
 using System.Text;
 
 namespace Yapp.Parser.Grammer {
+	/// <summary>
+	/// A collection of rules that will make up a grammer. The collection is defined by creating with a start rule
+	/// and then rules are added until the grammer is complete.
+	/// For rules with multiple choices you can define that rule multiple times in this collection.
+	/// </summary>
 	public class RuleCollection : IEnumerable<Rule> {
 		private readonly List<Rule> _rules = new();
 
+		/// <summary>
+		/// Create a new rule collection by defining the start rule
+		/// </summary>
+		/// <param name="start_name">Name of the start rule</param>
+		/// <param name="elements">Elements that make up the start rule</param>
 		public RuleCollection(string start_name, string elements) {
 			List<RuleItem> rules = new();
 			rules.AddRange(
@@ -14,6 +24,11 @@ namespace Yapp.Parser.Grammer {
 			_rules.Add(new Rule(start_name, rules.ToArray()));
 		}
 
+		/// <summary>
+		/// Add a rule to the collection
+		/// </summary>
+		/// <param name="name">Name of the rule</param>
+		/// <param name="elements">Elements that make up the rule</param>
 		public void Add(string name, string elements) {
 			Rule r = new(
 				name,
@@ -21,6 +36,9 @@ namespace Yapp.Parser.Grammer {
 			_rules.Add(r);
 		}
 
+		/// <summary>
+		/// Definition of the start rule for this collection
+		/// </summary>
 		public Rule StartRule => _rules[0];
 
 		#region Overrides of Object
@@ -47,6 +65,11 @@ namespace Yapp.Parser.Grammer {
 
 		#endregion
 
+		/// <summary>
+		/// Find all rules with the given name
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
 		internal IEnumerable<Rule> Find(string name) => _rules.Where(r => r.Name == name);
 	}
 }

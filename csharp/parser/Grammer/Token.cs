@@ -1,4 +1,8 @@
 ﻿namespace Yapp.Parser.Grammer {
+	/// <summary>
+	/// Defines a terminal element
+	/// </summary>
+	/// <param name="name">name of the token</param>
 	public class Token(in string name) : IEquatable<Token> {
 		private readonly string _name = name;
 
@@ -13,6 +17,9 @@
 
 		#endregion
 
+		/// <summary>
+		/// Predefined Token that indicates the end of the text being parsed
+		/// </summary>
 		public static readonly Token EOT = new Token("$");
 
 		#region Equality members
