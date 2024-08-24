@@ -5,7 +5,7 @@ namespace Yapp.Parser.Lalr {
 /// <summary>
 /// Defines parser state as the grammer is walked from the start Rule
 /// </summary>
-public class State {
+public class State : IEquatable<State> {
 	/// <summary>
 	/// Defines a rule as it is being walked by the state machine
 	/// </summary>
@@ -20,12 +20,14 @@ public class State {
 		/// The current rule element in this state
 		/// </summary>
 		internal RuleItem? Current => Pos < Rule.Length ? Rule[Pos] : null;
+
+		internal bool AtEnd => Pos >= Rule.Length;
 		
 		/// <summary>
 		/// Move to the next state as the rule is walked
 		/// </summary>
 		/// <returns></returns>
-		internal RuleWalk? Next() => Pos < Rule.Length ? new RuleWalk(Rule, Pos + 1) : null;
+		internal RuleWalk Next() => Pos < Rule.Length ? new RuleWalk(Rule, Pos + 1) : throw new ApplicationException("Tried to go past the end of a rule");
 
 		#region Overrides of Object
 
@@ -80,20 +82,21 @@ public class State {
 	/// <summary>
 	/// All the rules and positions for this state
 	/// </summary>
-	private readonly HashSet<RuleWalk> _members = new();
+	private readonly List<RuleWalk> _members = new();
+
+	/// <summary>
+	/// The transition element that led to this state
+	/// </summary>
+	private readonly RuleItem? _transition;
 
 	/// <summary>
 	/// Construct state from start rule
 	/// </summary>
 	internal State(StateCollection states) {
 		// no transition element to the initial state
-		Transition = null;
+		_transition = null;
 		// add all rules in their initial position
-		foreach (var r in states.Grammer) {
-			_members.Add(new(r, 0));
-		}
-
-		Root = new RuleWalk(states.Grammer.StartRule, 0);
+		_members.AddRange(states.Grammer.Select(r => new RuleWalk(r, 0)));
 	}
 
 	/// <summary>
@@ -101,26 +104,27 @@ public class State {
 	/// </summary>
 	/// <param name="states">Parent collection</param>
 	/// <param name="transition">Transition element to the root rule position</param>
-	/// <param name="root">The root rule that defines this state</param>
-	internal State(StateCollection states, RuleItem transition, RuleWalk root) {
-		Root = root;
-		Transition = transition;
-		_members.Add(root);
-		var srch = root.Current;
-		if (srch == null) return;
-		foreach (var r in states.Grammer.Find(srch.ToString())) {
-			_members.Add(new(r, 0));
+	/// <param name="roots">The root rule that defines this state</param>
+	internal State(StateCollection states, RuleItem transition, IEnumerable<RuleWalk> roots) {
+		_transition = transition;
+		var initial = roots.ToList();
+		_members.AddRange(initial);
+//		Console.WriteLine($"Creating state with transition => {transition}");
+		if (transition.IsTerminal) return;
+		if (initial.All(r => r.AtEnd)) return;
+		// find all rules for transition to add to state
+		var trans_rules = states.Grammer.Find(transition.Rule)
+			.Select(r => new RuleWalk(r, 0));
+//		_members.AddRange(trans_rules);
+		foreach (var r in trans_rules) {
+//			Console.WriteLine($"Add rule '{r}' to state: {this.ToString()}");
+			_members.Add(r);
 		}
 	}
 
-	/// <summary>
-	/// The transition element that led to this state
-	/// </summary>
-	private RuleItem? Transition { get; }
-
 	public override string ToString() {
 		StringBuilder sb = new();
-		sb.Append($"{Transition?.ToString() ?? string.Empty}>>");
+		sb.Append($"{_transition?.ToString() ?? string.Empty}>>");
 		foreach (var r in _members) {
 			sb.Append($"{r.ToString()}|");
 		}
@@ -130,7 +134,45 @@ public class State {
 
 	internal IEnumerable<RuleWalk> GetItems() => _members;
 
-	internal RuleWalk Root { get; }
+//	private List<RuleWalk> Roots { get; }
+
+	#region Equality members
+
+	/// <inheritdoc />
+	public bool Equals(State? other) {
+		if (ReferenceEquals(null, other)) return false;
+		if (ReferenceEquals(this, other)) return true;
+		if (!Equals(_transition, other._transition)) return false;
+		if (_members.Count != other._members.Count) return false;
+		foreach (var o in other._members) {
+			if (_members.All(x => !x.Equals(o))) return false;
+		}
+
+		return true;
+	}
+
+	/// <inheritdoc />
+	public override bool Equals(object? obj) {
+		if (ReferenceEquals(null, obj)) return false;
+		if (ReferenceEquals(this, obj)) return true;
+		if (obj.GetType() != this.GetType()) return false;
+		return Equals((State)obj);
+	}
+
+	/// <inheritdoc />
+	public override int GetHashCode() {
+		return HashCode.Combine(_members, _transition);
+	}
+
+	public static bool operator ==(State? left, State? right) {
+		return Equals(left, right);
+	}
+
+	public static bool operator !=(State? left, State? right) {
+		return !Equals(left, right);
+	}
+
+	#endregion
 }
 
 }

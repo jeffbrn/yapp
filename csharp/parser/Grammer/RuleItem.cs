@@ -2,7 +2,7 @@
 	/// <summary>
 	/// Defines a rule element which can be either a terminal or non-terminal
 	/// </summary>
-	public class RuleItem {
+	public class RuleItem : IEquatable<RuleItem> {
 		private readonly Token? _token;
 		private readonly string? _rule;
 
@@ -33,6 +33,38 @@
 		/// <inheritdoc />
 		public override string ToString() {
 			return IsTerminal ? Token.ToString() : Rule;
+		}
+
+		#endregion
+
+		#region Equality members
+
+		/// <inheritdoc />
+		public bool Equals(RuleItem? other) {
+			if (other is null) return false;
+			if (ReferenceEquals(this, other)) return true;
+			return Equals(_token, other._token) && _rule == other._rule;
+		}
+
+		/// <inheritdoc />
+		public override bool Equals(object? obj) {
+			if (obj is null) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (obj.GetType() != GetType()) return false;
+			return Equals((RuleItem)obj);
+		}
+
+		/// <inheritdoc />
+		public override int GetHashCode() {
+			return HashCode.Combine(_token, _rule);
+		}
+
+		public static bool operator ==(RuleItem? left, RuleItem? right) {
+			return Equals(left, right);
+		}
+
+		public static bool operator !=(RuleItem? left, RuleItem? right) {
+			return !Equals(left, right);
 		}
 
 		#endregion
