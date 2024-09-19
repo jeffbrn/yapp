@@ -41,6 +41,10 @@ namespace Yapp.Parser.Grammer {
 		/// </summary>
 		public Rule StartRule => _rules[0];
 
+		public Rule this[int idx] => _rules[idx];
+
+		public int DisplayWidth => _rules.Max(r => r.StrLen);
+
 		#region Overrides of Object
 
 		/// <inheritdoc />

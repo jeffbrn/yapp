@@ -9,6 +9,7 @@ namespace Yapp.Tests.grammer {
 				new("E"), 
 				new(new Token(")")));
 			Assert.Equal("T -> ( E ) ", r.ToString());
+			Assert.Equal(11, r.StrLen);
 		}
 
 		[Fact]
@@ -16,7 +17,7 @@ namespace Yapp.Tests.grammer {
 			var items = new[] { new RuleItem(new Token("(")), new("E"), new(new Token(")")) };
 			Rule r = new("T", items);
 			Assert.Equal("T", r.Name);
-			Assert.Equal(3, r.Length);
+			Assert.Equal(3, r.Count);
 			for (int i = 0; i < items.Length; i++) {
 				Assert.Equal(items[i], r[i]);
 			}

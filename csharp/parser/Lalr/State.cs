@@ -19,15 +19,15 @@ public class State : IEquatable<State> {
 		/// <summary>
 		/// The current rule element in this state
 		/// </summary>
-		internal RuleItem? Current => Pos < Rule.Length ? Rule[Pos] : null;
+		internal RuleItem? Current => Pos < Rule.Count ? Rule[Pos] : null;
 
-		internal bool AtEnd => Pos >= Rule.Length;
+		internal bool AtEnd => Pos >= Rule.Count;
 		
 		/// <summary>
 		/// Move to the next state as the rule is walked
 		/// </summary>
 		/// <returns></returns>
-		internal RuleWalk Next() => Pos < Rule.Length ? new RuleWalk(Rule, Pos + 1) : throw new ApplicationException("Tried to go past the end of a rule");
+		internal RuleWalk Next() => Pos < Rule.Count ? new RuleWalk(Rule, Pos + 1) : throw new ApplicationException("Tried to go past the end of a rule");
 
 		#region Overrides of Object
 
@@ -36,11 +36,11 @@ public class State : IEquatable<State> {
 			StringBuilder sb = new();
 			sb.Append(Rule.Name);
 			sb.Append("->");
-			for (int i = 0; i < Rule.Length; i++) {
+			for (int i = 0; i < Rule.Count; i++) {
 				if (i == Pos) sb.Append(".");
 				sb.Append(Rule[i]);
 			}
-			if (Pos == Rule.Length) sb.Append(".");
+			if (Pos == Rule.Count) sb.Append(".");
 			return sb.ToString();
 		}
 
@@ -133,6 +133,10 @@ public class State : IEquatable<State> {
 	}
 
 	internal IEnumerable<RuleWalk> GetItems() => _members;
+
+	internal int Count => _members.Count;
+
+	internal RuleItem? Transition => _transition;
 
 //	private List<RuleWalk> Roots { get; }
 

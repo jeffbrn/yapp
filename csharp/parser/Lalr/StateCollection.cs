@@ -21,6 +21,20 @@ namespace Yapp.Parser.Lalr {
 		public State this[int index] => _states[index];
 		public IEnumerable<(int from, int to)> Transitions => _transitions;
 
+		public List<RuleItem> GetTransitionList() {
+			var items = _states.Where(x => x.Transition != null)
+				.Select(x => x.Transition ?? throw new InvalidOperationException("Filter didn't work"))
+				.Distinct()
+				.OrderBy(r => {
+					if (r.IsTerminal) {
+						return r.Token == Token.EOT ? -1 : -2;
+					}
+
+					return r.Rule.Length == 1 ? 1 : 2;
+				});
+			return items.ToList();
+		}
+
 		internal RuleCollection Grammer { get; }
 
 		/// <summary>

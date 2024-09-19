@@ -27,7 +27,9 @@ namespace Yapp.Parser.Grammer {
 		/// <summary>
 		/// # of elements that make up this rule
 		/// </summary>
-		public int Length => _elements.Length;
+		public int Count => _elements.Length;
+
+		public int StrLen => this.ToString().Length;
 
 		#region Overrides of Object
 
@@ -49,8 +51,8 @@ namespace Yapp.Parser.Grammer {
 		public bool Equals(Rule? other) {
 			if (other is null) return false;
 			if (ReferenceEquals(this, other)) return true;
-			if (_name != other._name || Length != other.Length) return false;
-			for (int i = 0; i < Length; i++) {
+			if (_name != other._name || Count != other.Count) return false;
+			for (int i = 0; i < Count; i++) {
 				if (this[i] != other[i]) return false;
 			}
 
