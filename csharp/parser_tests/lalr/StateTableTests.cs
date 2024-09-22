@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
 using Xunit.Abstractions;
 
-using Yapp.Parser.Grammer;
+using Yapp.Parser.Grammar;
 using Yapp.Parser.Lalr;
 
 namespace Yapp.Tests.lalr {
@@ -17,13 +13,8 @@ namespace Yapp.Tests.lalr {
 
 		public StateTableTests(ITestOutputHelper testOutputHelper) {
 			_test_output_helper = testOutputHelper;
-
-			RuleCollection rules1 = new("S'", "S");
-			rules1.Add("S", "AA");
-			rules1.Add("A", "aA");
-			rules1.Add("A", "b");
-			_rules1 = new(rules1);
-			_display_width1 = rules1.DisplayWidth;
+			_rules1 = new(TestGrammars.Grammar1());
+			_display_width1 = _rules1.Grammar.DisplayWidth;
 		}
 
 		[Fact]
@@ -52,8 +43,15 @@ namespace Yapp.Tests.lalr {
 		}
 
 		[Fact]
-		public void ParseTable() {
+		public void ParseTableGrammer1() {
 			var pt = new ParseTable(_rules1);
+			_test_output_helper.WriteLine(pt.ToString());
+		}
+
+		[Fact]
+		public void ParseTableGrammer2() {
+			StateCollection states = new(TestGrammars.Grammar2());
+			var pt = new ParseTable(states);
 			_test_output_helper.WriteLine(pt.ToString());
 		}
 

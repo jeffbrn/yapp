@@ -1,33 +1,22 @@
 ﻿using System.Text;
 using Xunit.Abstractions;
 
-using Yapp.Parser.Grammer;
+using Yapp.Parser.Grammar;
 using Yapp.Parser.Lalr;
 
 namespace Yapp.Tests.lalr {
 	public class StateCollectionTests
     {
         private readonly ITestOutputHelper _test_output_helper;
-        private readonly RuleCollection _rules1;
-		private readonly RuleCollection _rules2;
-        private StringWriter _output = new();
+        private readonly RuleCollection _rules1 = TestGrammars.Grammar1();
+		private readonly RuleCollection _rules2 = TestGrammars.Grammar2();
+        private readonly StringWriter _output = new();
 
 		public StateCollectionTests(ITestOutputHelper testOutputHelper)
         {
             _test_output_helper = testOutputHelper;
             // setup to capture console output
             Console.SetOut(_output);
-
-            _rules1 = new("S'", "S");
-            _rules1.Add("S", "AA");
-            _rules1.Add("A", "aA");
-            _rules1.Add("A", "b");
-
-            _rules2 = new("S'", "E");
-            _rules2.Add("E", "E-T");
-			_rules2.Add("E", "T");
-			_rules2.Add("T", "n");
-			_rules2.Add("T", "(E)");
 		}
 
         private void DumpStates(StateCollection states, List<(int from, int to)> transitions) {
@@ -35,7 +24,7 @@ namespace Yapp.Tests.lalr {
 			_test_output_helper.WriteLine(_output.ToString());
 			// output the discovered states
 			for (int i = 0; i < states.Count; i++) {
-				var line = $"{i}: {states[i].ToString()}";
+				var line = $"{i}: {states[i]}";
 				_test_output_helper.WriteLine(line);
 			}
 			for (int i = 0; i < transitions.Count; i++) {
@@ -43,7 +32,7 @@ namespace Yapp.Tests.lalr {
 			}
 		}
 
-		private string TDefs(StateCollection states, int idx) {
+		private static string TDefs(StateCollection states, int idx) {
 			var list = states.Transitions.Where(t => t.from == idx)
 				.OrderBy(t => t.to)
 				.Select(t => t.to.ToString());

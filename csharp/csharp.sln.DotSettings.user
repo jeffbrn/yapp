@@ -3,5 +3,10 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.lalr.StateTableTests.TableEntry&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.lalr.StateTableTests.ParseTable&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.grammar.RuleCollectionTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.grammar.RuleTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.grammar.TokenTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.lalr.StateCollectionTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C21BA1AB-5F1C-44A8-946F-C84F3943251E::net8.0::Yapp.Tests.lalr.StateTableTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

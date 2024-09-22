@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Yapp.Parser.Grammer;
+using Yapp.Parser.Grammar;
 
 namespace Yapp.Parser.Lalr {
 	public class TableEntry {

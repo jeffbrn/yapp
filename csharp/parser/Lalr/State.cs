@@ -1,9 +1,9 @@
 ﻿using System.Text;
-using Yapp.Parser.Grammer;
+using Yapp.Parser.Grammar;
 
 namespace Yapp.Parser.Lalr {
 /// <summary>
-/// Defines parser state as the grammer is walked from the start Rule
+/// Defines parser state as the grammar is walked from the start Rule
 /// </summary>
 public class State : IEquatable<State> {
 	/// <summary>
@@ -96,7 +96,7 @@ public class State : IEquatable<State> {
 		// no transition element to the initial state
 		_transition = null;
 		// add all rules in their initial position
-		_members.AddRange(states.Grammer.Select(r => new RuleWalk(r, 0)));
+		_members.AddRange(states.Grammar.Select(r => new RuleWalk(r, 0)));
 	}
 
 	/// <summary>
@@ -113,7 +113,7 @@ public class State : IEquatable<State> {
 		if (transition.IsTerminal) return;
 		if (initial.All(r => r.AtEnd)) return;
 		// find all rules for transition to add to state
-		var trans_rules = states.Grammer.Find(transition.Rule)
+		var trans_rules = states.Grammar.Find(transition.Rule)
 			.Select(r => new RuleWalk(r, 0));
 //		_members.AddRange(trans_rules);
 		foreach (var r in trans_rules) {

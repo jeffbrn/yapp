@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Yapp.Parser.Grammer;
+using Yapp.Parser.Grammar;
 
 namespace Yapp.Parser.Lalr {
 	public class StateCollection : IEnumerable<State> {
@@ -8,7 +8,7 @@ namespace Yapp.Parser.Lalr {
 		private readonly List<(int from, int to)> _transitions = new();
 
 		public StateCollection(RuleCollection rules) {
-			Grammer = rules;
+			Grammar = rules;
 			int curr_state = 0;
 			// set initial state
 			_states.Add(new State(this));
@@ -36,7 +36,7 @@ namespace Yapp.Parser.Lalr {
 			return items.ToList();
 		}
 
-		public RuleCollection Grammer { get; }
+		public RuleCollection Grammar { get; }
 
 		/// <summary>
 		/// Find all states that transition from the given state

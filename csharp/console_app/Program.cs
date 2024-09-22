@@ -1,7 +1,7 @@
 ﻿namespace Yapp.Console;
 
 using System;
-using Parser.Grammer;
+using Parser.Grammar;
 
 internal class Program {
 	private static void Main(string[] args) {
@@ -10,7 +10,7 @@ internal class Program {
 		grammer.Add("E", "T");
 		grammer.Add("T", "n");
 		grammer.Add("T", "(E)");
-		Console.WriteLine("Grammer :-");
+		Console.WriteLine("Grammar :-");
 		Console.WriteLine("================================");
 		Console.WriteLine(grammer.ToString());
 	}

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
-using Yapp.Parser.Grammer;
+using Yapp.Parser.Grammar;
 
 namespace Yapp.Parser.Lalr
 {
@@ -16,7 +12,7 @@ namespace Yapp.Parser.Lalr
 
 		public ParseTable(StateCollection states) {
 			_states = states;
-			_max_rule_len = _states.Grammer.DisplayWidth;
+			_max_rule_len = _states.Grammar.DisplayWidth;
 			_cols = _states.Where(s => s.Transition != null)
 				.Select(s => s.Transition)
 				.Distinct()
