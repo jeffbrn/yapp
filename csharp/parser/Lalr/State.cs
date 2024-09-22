@@ -136,7 +136,7 @@ public class State : IEquatable<State> {
 
 	internal int Count => _members.Count;
 
-	internal RuleItem? Transition => _transition;
+	public RuleItem? Transition => _transition;
 
 //	private List<RuleWalk> Roots { get; }
 

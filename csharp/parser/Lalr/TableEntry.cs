@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Yapp.Parser.Grammer;
 
 namespace Yapp.Parser.Lalr {
@@ -12,23 +9,23 @@ namespace Yapp.Parser.Lalr {
 		private readonly List<RuleItem> _all_trans;
 		private readonly int _max_action_len;
 
-		internal TableEntry(int idx, StateCollection states, int from, List<RuleItem> all_trans, int max_rule_len) {
+		public TableEntry(int idx, StateCollection states, List<RuleItem> all_trans, int max_rule_len) {
 			_idx = idx;
 			_all_trans = all_trans;
 			_max_action_len = max_rule_len > 5 ? max_rule_len : 5;
-			var transitions = states.Transitions.Where(t => t.from == from).Select(t => t.to).ToList();
+			var transitions = states.Transitions.Where(t => t.from == idx)
+				.Select(t => t.to)
+				.ToList();
 			if (transitions.Any()) {
 				foreach (var to in transitions) {
 					var state = states[to];
-					_gotos[state.Transition ?? throw new ApplicationException($"Invalid transition for {from} -> {to}")] = to;
+					_gotos[state.Transition ?? throw new ApplicationException($"Invalid transition for {idx} -> {to}")] = to;
 				}
 			} else {
-				var state = states[from] ?? throw new ApplicationException("Invalid state");
+				var state = states[idx] ?? throw new ApplicationException("Invalid state");
 				if (state.Count != 1) throw new ApplicationException("Invalid action state");
 				Action = state.GetItems().First();
 			}
-
-			_all_trans = all_trans;
 		}
 
 		internal State.RuleWalk? Action { get; }
@@ -44,6 +41,9 @@ namespace Yapp.Parser.Lalr {
 			StringBuilder sb = new();
 			var fmt = "{0,2}: {1," + (-_max_action_len) + "} | ";
 			sb.AppendFormat(fmt, _idx, Action?.ToString() ?? "shift");
+			foreach (var nxt in _all_trans.Select(NextState)) {
+				sb.AppendFormat("{0} | ", nxt < 0 ? " " : nxt.ToString());
+			}
 			return sb.ToString();
 		}
 

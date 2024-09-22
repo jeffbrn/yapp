@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
 using Yapp.Parser.Grammer;
 
 namespace Yapp.Parser.Lalr {
-	public class StateCollection {
+	public class StateCollection : IEnumerable<State> {
 		private readonly List<State> _states = new();
 		private readonly List<(int from, int to)> _transitions = new();
 
@@ -35,7 +36,7 @@ namespace Yapp.Parser.Lalr {
 			return items.ToList();
 		}
 
-		internal RuleCollection Grammer { get; }
+		public RuleCollection Grammer { get; }
 
 		/// <summary>
 		/// Find all states that transition from the given state
@@ -75,5 +76,19 @@ namespace Yapp.Parser.Lalr {
 
 			return -1;
 		}
+
+		#region Implementation of IEnumerable
+
+		/// <inheritdoc />
+		public IEnumerator<State> GetEnumerator() {
+			return _states.GetEnumerator();
+		}
+
+		/// <inheritdoc />
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
+		}
+
+		#endregion
 	}
 }

@@ -28,7 +28,34 @@ namespace Yapp.Tests.lalr {
 
 		[Fact]
 		public void TableEntry() {
+			List<RuleItem> cols = _rules1.Where(s => s.Transition != null)
+				.Select(s => s.Transition)
+				.Distinct()
+				.OrderBy(t => t!.IsTerminal
+					? (t.Token == Token.EOT ? -1 : -5)
+					: t.Rule.Length
+				).ToList()!;
+			_test_output_helper.WriteLine("Columns:-");
+			StringBuilder sb = new();
+			var fmt = "    {0," + (-_display_width1) + "} | ";
+			sb.AppendFormat(fmt, "ACTION");
+			foreach (var c in cols) {
+				sb.Append($"{c} | ");
+			}
+			_test_output_helper.WriteLine(sb.ToString());
 
+ 			TableEntry entry = new(0, _rules1, cols, _display_width1);
+			Assert.True(entry.IsShift);
+			Assert.Equal(-1, entry.NextState(cols[2]));
+			Assert.Equal(3, entry.NextState(cols[0]));
+			_test_output_helper.WriteLine(entry.ToString());
 		}
+
+		[Fact]
+		public void ParseTable() {
+			var pt = new ParseTable(_rules1);
+			_test_output_helper.WriteLine(pt.ToString());
+		}
+
 	}
 }
